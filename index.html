@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>z-tb/Github</title>
+  <style>
+    /* Base Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    a {
+      color: #0366d6;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover, a:focus {
+      color: #023e8a;
+      outline: none;
+    }
+    header {
+      background-color: #024059;
+      color: #f0f0f0;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 2.6rem;
+      letter-spacing: 1px;
+    }
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #aad8d3;
+    }
+    nav {
+      margin-top: 1rem;
+    }
+    nav a {
+      display: inline-block;
+      margin: 0 1rem;
+      font-weight: 600;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+    }
+    nav a:hover, nav a:focus {
+      background-color: #0366d6;
+      color: white;
+    }
+    main {
+      flex: 1 0 auto;
+      max-width: 900px;
+      width: 90%;
+      margin: 3rem auto;
+      text-align: center;
+    }
+    .welcome {
+      margin-bottom: 3rem;
+    }
+    .welcome h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #024059;
+    }
+    .welcome p {
+      font-size: 1.1rem;
+      color: #515151;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      padding: 1.8rem 1.5rem;
+      text-align: left;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .card:hover, .card:focus-within {
+      box-shadow: 0 12px 30px rgba(3, 102, 214, 0.3);
+      transform: translateY(-7px);
+      outline: none;
+    }
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      color: #023e8a;
+      font-size: 1.3rem;
+    }
+    .card p {
+      margin: 0;
+      font-size: 1rem;
+      color: #455a64;
+      line-height: 1.4;
+    }
+    .card a {
+      display: block;
+      margin-top: 1rem;
+      color: #0366d6;
+      font-weight: 600;
+    }
+    footer {
+      background-color: #024059;
+      color: #ced7dc;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      nav a {
+        margin: 0 0.5rem;
+        font-size: 0.9rem;
+      }
+      main {
+        width: 95%;
+      }
+      .welcome h2 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Your Name</h1>
+    <p>This is an index for my various GitHub Projects</p>
+    <nav role="navigation" aria-label="Primary Navigation">
+      <a href="about.html" tabindex="0">About Me</a>
+      <a href="projects.html" tabindex="0">Projects</a>
+      <a href="blog.html" tabindex="0">Blog</a>
+      <a href="contact.html" tabindex="0">Contact</a>
+    </nav>
+  </header>
+  
+  <main>
+    <section class="welcome" aria-labelledby="welcome-heading">
+      <h2 id="welcome-heading">z-tb</h2>
+      <p>DevOps, Linux admin, Software developer, open-source enthusiast.</p>
+    </section>
+    <section class="grid" aria-label="Featured Links">
+      <article class="card" tabindex="0">
+        <h3>Docker Fundamentals</h3>
+        <p>A slide presentation on Docker fundamentals. Delves into security, usability. The good, bad and ugly of Docker.</p>
+        <a href="docker-fundamentals/index.htm" tabindex="0">Docker Fundamentals →</a>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 z-tb&nbsp;|&nbsp; <a href="mailto:z-tb@nowhere.net">nospam@nowhere.net</a>
+  </footer>
+</body>
+</html>
