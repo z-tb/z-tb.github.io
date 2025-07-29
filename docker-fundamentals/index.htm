@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Fundamentals</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh; /* Add this */
+        }
+
+        .presentation-container {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .slide {
+            width: 90%;
+            max-width: 1000px;
+            min-height: 80%; /* Change from height: 80% */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: none;
+            overflow-y: visible; /* Change from auto */
+            animation: slideIn 0.5s ease-in-out;
+        }
+        .slide.active {
+            display: block;
+        }
+
+        .warning-image {
+            position: absolute;
+            top: 10%;
+            left: 95%;
+            transform: translate(-50%, -50%) rotate(15deg);
+            z-index: 1000;
+            max-width: 200px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) rotate(15deg) translateY(0); }
+            50% { transform: translate(-50%, -50%) rotate(15deg) translateY(-10px); }
+        }
+
+        .slide {
+            position: relative;
+            overflow: visible;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #FFD700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #87CEEB;
+            border-bottom: 2px solid #87CEEB;
+            padding-bottom: 5px;
+        }
+
+        p, li {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            border-left: 4px solid #FFD700;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        .bash-command {
+            color: #98C379;
+        }
+
+        .bash-flag {
+            color: #E06C75;
+        }
+
+        .bash-string {
+            color: #D19A66;
+        }
+
+        .bash-comment {
+            color: #5C6370;
+            font-style: italic;
+        }
+
+        .bash-path {
+            color: #61AFEF;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #87CEEB;
+        }
+
+        .good {
+            border-left-color: #90EE90;
+        }
+
+        .bad {
+            border-left-color: #FFB6C1;
+        }
+
+        .workflow-step {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 4px solid #FFD700;
+        }
+
+        .center-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .docker-logo {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .terminal {
+            background: #1a1a1a;
+            color: #c0c0c0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'Courier New', Monaco, 'Lucida Console', monospace;
+            font-size: 0.9em;
+            margin: 8px 0;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .terminal::before {
+            content: "$ ";
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .docker-terminal {
+            background: #1a1a1a;
+            color: #c0c0c0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'Courier New', Monaco, 'Lucida Console', monospace;
+            font-size: 0.9em;
+            margin: 8px 0;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .docker-terminal::before {
+            content: "🐳 $";
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+
+        .terminal-output {
+            background: #1a1a1a;
+            color: #c0c0c0;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: 'Courier New', Monaco, 'Lucida Console', monospace;
+            font-size: 0.9em;
+            margin: 4px 0 8px 0;
+            border: 1px solid #333;
+            border-left: 3px solid #00ff00;
+        }
+
+        .code-terminal {
+            background: #1a1a1a;
+            color: #c0c0c0;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', Monaco, 'Lucida Console', monospace;
+            margin: 8px 0;
+            border-left: 3px solid #00ff00;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        .code-terminal::before {
+            content: "$ ";
+            color: #00ff00;
+            font-weight: bold;
+        }
+        a {
+            color: #87CEEB;
+            text-decoration: underline;
+        }
+
+        a:hover {
+            color: #FFD700;
+        }
+
+        .yaml-key {
+            color: #61AFEF;
+        }
+
+        .yaml-value {
+            color: #98C379;
+        }
+
+        .yaml-string {
+            color: #D19A66;
+        }
+
+        .yaml-variable {
+            color: #E06C75;
+        }
+            
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">16</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="center-content">
+                <div class="docker-logo">🐳</div>
+                <h1>Docker Fundamentals</h1>
+                <p style="text-align: center; font-size: 1.5em; margin-top: 30px;">Containerization Technology for Modern Development</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What is Docker? -->
+        <div class="slide">
+            <h2>What is Docker?</h2>
+            <ul>
+                <li><strong>Lightweight segregation</strong> for packaging software and its dependencies</li>
+                <li>Allows for <strong>running your application wherever Docker is available</strong></li>
+                <li>Containerization platform that provides <strong>consistent</strong> environments across different systems</li>
+            </ul>
+            <div class="code">
+                🐳 Docker = Portable, Lightweight, Consistent, Shareable
+            </div>
+        </div>
+
+        <!-- Slide 3: Containers vs Virtual Machines -->
+        <div class="slide">
+            <h2>Containers vs Virtual Machines</h2>
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <h3>Containers 🚢</h3>
+                    <ul>
+                        <li>Higher resource efficiency</li>
+                        <li>Faster startup time</li>
+                        <li>Better portability</li>
+                        <li>Share host OS kernel</li>
+                    </ul>
+                </div>
+                <div class="comparison-item">
+                    <h3>Virtual Machines 💻</h3>
+                    <ul>
+                        <li>More resource intensive</li>
+                        <li>Slower startup</li>
+                        <li>Full OS isolation</li>
+                        <li>~20GB for Ubuntu VM</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Key Docker Concepts -->
+        <div class="slide">
+            <h2>Key Docker Concepts</h2>
+            <h3>🏗️ Dockerfile</h3>
+            <p>Blueprint for building containers</p>
+            
+            <h3>📦 Images</h3>
+            <p>Immutable templates for running containers (built from Dockerfile)</p>
+            
+            <h3>🚢 Containers</h3>
+            <p>Running process/instance of an image with:</p>
+            <ul>
+                <li>Isolated filesystem and environment</li>
+                <li>Can "hook" into host environment</li>
+                <li>SSH-agent, Docker daemon support</li>
+            </ul>
+        </div>
+
+        <!-- Slide 5: Why Docker? (The Good) -->
+        <div class="slide">
+            <h2>Why Docker? ✅ The Good</h2>
+            <div class="comparison-item good">
+                <ul>
+                    <li><strong>Decoupled Architecture:</strong> Isolated dependencies, independent development</li>
+                    <li><strong>Scaling & Deployment:</strong> Easy horizontal scaling</li>
+                    <li><strong>Cross-platform Consistency:</strong> Runs on Windows, Mac, Linux</li>
+                    <li><strong>Lightweight:</strong> Much smaller than VMs</li>
+                    <li><strong>Consistent Runtime:</strong> Dev, prod, and test environments align</li>
+                    <li><strong>Security:</strong> Reduced host risk from malicious packages</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 6: Why Docker? (The Bad) -->
+        <div class="slide">
+            <h2>Why Docker? ❌ The Bad & Ugly</h2>
+            <div class="comparison-item bad">
+                <h3>Security Issues:</h3>
+                <ul>
+                    <li>Host kernel vulnerability (shared with container)</li>
+                    <li>Volume mount confusion</li>
+                    <li>Docker history/logs expose sensitive data</li>
+                    <li>Running as root/host resource access</li>
+                    <li>VM has better security isolation</li>
+                </ul>
+                
+                <h3>Complexity:</h3>
+                <ul>
+                    <li>Layers get messy</li>
+                    <li>Obfuscated Dockerfile syntax</li>
+                    <li>YAML drudgery with docker-compose</li>
+                    <li>Secret handling</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 7: Docker Workflow Basics -->
+        <div class="slide">
+            <h2>Docker Workflow Basics</h2>
+            <div class="workflow-step">
+                <h3>Just download and Run (interactive)</h3>
+<div class="terminal">docker run -it ubuntu:focal /bin/bash</div>
+                <ul>                
+                    <li>Shell access for debugging and testing</li>
+                    <li>Devcontainer</li>
+                </ul>
+            </div>
+            
+            <div class="workflow-step">
+                <h3>Build, Run, Deploy</h3>
+                <ul>                
+                <li>Create image</li>
+                <li>Load application</li>
+                <li>Run container</li>
+                <li>Test app</li>
+                <li>Push to registry</li>
+                <li>Deploy to production</li>
+                </ul>
+            </div>
+            
+        </div>
+
+        <!-- Slide 8: Writing Dockerfiles -->
+        <div class="slide">
+            <h2>Writing Dockerfiles</h2>
+            <div class="code"><span class="bash-command">FROM</span> alpine:latest
+<span class="bash-command">WORKDIR</span> <span class="bash-path">/containerapp</span>
+<span class="bash-command"> </span>
+<span class="bash-comment"># if WORKDIR set, COPY puts files there</span>
+<span class="bash-comment"># ...otherwise, is copied to slash with directory name</span>
+<span class="bash-command">COPY</span> <span class="bash-path">logs/logfile.txt</span> <span class="bash-path">/containerapp</span>
+<span class="bash-command"> </span>
+<span class="bash-comment"># use double quotes or it thinks it's JSON</span>
+<span class="bash-command">CMD</span> <span class="bash-string">["<span class="bash-path">/bin/ls</span>", "<span class="bash-flag">-la</span>"]</span>
+<span class="bash-comment">
+# like CMD but harder to override</span>
+<span class="bash-command">ENTRYPOINT</span> <span class="bash-string">["<span class="bash-path">python</span>", "<span class="bash-flag">app.py</span>"]</span>
+            </div>
+            <strong><i>Remember:</strong> Each command creates a new layer!</i></p>
+            
+            <h3>Key Instructions:</h3>
+            <ul>
+                <li><strong>FROM:</strong> Base image (alpine:latest)</li>
+                <li><strong>WORKDIR:</strong> Set working directory (optional)</li>
+                <li><strong>COPY:</strong> Copy files to container</li>
+                <li><strong>CMD:</strong> Default command on startup</li>
+            </ul>
+        </div>
+
+        <!-- Slide 9: Building Images -->
+        <div class="slide">
+            <h2>Building & Running Images</h2>
+
+            <h3>Building</h3> (<i>use "slim" or Alpine variants to reduce size </i>)
+            <div class="code"><span class="bash-comment"># Build image with tag name</span>
+<span class="bash-command">docker build</span> <span class="bash-flag">-t</span> <span class="bash-string">z-tb/testimage</span> <span class="bash-path">.</span>
+
+<span class="bash-comment"># Build with version tags</span>
+<span class="bash-command">docker build</span> <span class="bash-flag">-t</span> <span class="bash-string">z-tb/testimage:1.0</span> <span class="bash-path">.</span>
+<span class="bash-command">docker build</span> <span class="bash-flag">-t</span> <span class="bash-string">z-tb/testimage:1.1</span> <span class="bash-path">.</span>
+            </div>
+            
+            <h3>Running:</h3>
+            <div class="code"><span class="bash-comment"># Run with default CMD (/bin/ls -l)</span>
+<span class="bash-command">docker run</span> <span class="bash-string">z-tb/testimage</span>
+
+<span class="bash-comment"># Run specific version tag</span>
+<span class="bash-command">docker run</span> <span class="bash-string">z-tb/testimage:1.0</span>
+
+<span class="bash-comment"># Run interactively with shell</span>
+<span class="bash-command">docker run</span> <span class="bash-flag">-it</span> <span class="bash-string">z-tb/testimage</span> <span class="bash-path">/bin/sh</span>
+
+<span class="bash-comment"># Override CMD to run different command</span>
+<span class="bash-command">docker run</span> <span class="bash-string">z-tb/testimage</span> <span class="bash-path">/bin/ls</span> <span class="bash-flag">-al</span> <span class="bash-path">/</span>
+            </div>
+        </div>
+
+        <!-- Slide 10: Data Persistence -->
+        <div class="slide">
+            <h2>Data Persistence & Volumes</h2>
+            
+            <div class="code"><span class="bash-command">docker run <span class="bash-flag">--volume ./logs:/mnt/logs</span> -it z-tb/testimage /bin/sh</span>
+<span class="bash-command">docker run <span class="bash-flag">--user $(id -u):$(id -g) --volume ./logs:/mnt/logs</span> -it z-tb/testimage /bin/sh</span>
+</div>
+            
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <h3>📂 Volumes</h3>
+                    <ul>
+                        <li>Can be mounted across multiple containers</li>
+                        <li>Data persists even when container stops</li>
+                        <li>Share data between host and container</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-item">
+                    <h3>⚠️ Permissions/Access</h3>
+                    <ul>
+                        <li>Root is UID=0 everywhere</li>
+                        <li>Container UID/GID is often different</li>
+                        <li>Can permit/deny access on host</li>
+                        <li>Can run as your account:</li>
+                        <li class="code">--user $(id -u):$(id -g)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- Slide 11: Environment Variables -->
+        <div class="slide">
+            <h2>Docker and Secrets</h2>
+            
+            <h3>⚠️ Security Considerations</h3>
+            <img src="demo-images/dumpster-fire.gif" alt="Security risk" class="warning-image" style="max-width: 200px; margin: 20px auto; display: block;">
+                <div class="code">
+<span class="bash-comment"># Can get written to shell history files</span>
+<span class="bash-command">$ export <span class="bash-flag">SECRET_KEY=111222333</span></span>
+
+<span class="bash-comment"># Can (used to?) be exposed by <span class="bash-command">docker history</span>
+<span class="bash-command">$ docker build </span><span class="bash-flag">--build-arg SECRET_KEY=111222333</span> -t z-tb/testimage:latest .</span>
+
+<span class="bash-comment"># docker-compose.yml + .env file</span>
+<span class="yaml-key">version:</span> <span class="yaml-string">'3.8'</span>
+<span class="yaml-key">services:</span>
+ <span class="yaml-key">z-tb-testservice:</span>
+   <span class="yaml-key">build:</span> <span class="yaml-value">.</span>
+   <span class="yaml-key">container_name:</span> <span class="yaml-string">z-tb-testcontainer</span>
+   <span class="yaml-key">env_file:</span>
+     - <span class="yaml-value">.env</span>
+            
+<span class="bash-comment"># .env file contents</span>
+<span class="bash-command"><span class="bash-flag">SECRET_KEY=111222333</span>
+                </div>    
+            
+            <h3>Slippery surfaces</h3>
+            <ul>
+                <li>Shell history exposes key=values pairs when setting variables</li>
+                <li><span class="terminal">docker history</span> can reveal secrets passed as build args*</li>
+                <li><code>.env</code> files for docker-compose can be accidentally committed</li>
+            </ul>
+            
+            <br>    
+            <div class="link">
+                *<a href="https://github.com/docker/cli/issues/2473" target="_blank">🔗 Docker history exposes build args - github.com</a>
+            </div>  
+
+
+        </div>
+
+
+    
+
+
+
+<!-- Slide 11b: Environment Variables -->
+<div class="slide">    
+    <h2>Environment Variables</h2>
+    <h3>⚠️ Security Considerations</h3>
+    <div class="code">
+        <span class="bash-comment"># Provide secret without exposing to shell history</span>
+        <span class="bash-command">read</span> SECRET_KEY     <span class="bash-comment"># &lt;-- command in history, not secret</span>
+        <span class="bash-command">export</span> SECRET_KEY
+        <span class="bash-command">docker run</span> <span class="bash-flag">--env</span> SECRET_KEY <span class="bash-flag">-it</span> <span class="bash-string">z-tb/testimage</span> <span class="bash-path">/bin/sh</span>
+        <span class="bash-path">🐳 #</span> <span class="bash-command">echo</span> $SECRET_KEY
+        <span class="bash-string">supersecret</span>
+
+        <span class="bash-comment"># In another terminal - even when container is down</span>
+        <span class="bash-command">docker inspect</span> 58d816d37f7a | <span class="bash-command">grep</span> SECRET
+        <span class="bash-string">"SECRET_KEY=supersecret",</span>        
+    </div>
+    <ul>
+        <li>Shell history exposure</li>
+        <li>Now <span class="terminal">docker inspect</span> will expose the secret</li>
+        <li><code>.env</code> (docker-compose) files can be accidentally committed</li>
+        <li>Partially mitigate by removing container <span class="terminal">docker run --rm ...</span> after running</li>
+    </ul>
+</div>
+
+        <!-- Slide 12: Docker Compose -->
+        <div class="slide">
+            <h2>Docker Compose</h2>
+            
+            <h3>🎼 Managing Multi-Container Apps</h3>
+            <ul>
+                <li>docker-compose/YAML config for complex infra</li>
+                <li>Can be used for single containers too</li>
+                <li>Profiles for different environments</li>
+                <li>Manage (orchestrate) services (web servers, databases, etc.)</li>
+            </ul>
+            
+            <div class="code">
+<span class="yaml-key">version:</span> <span class="yaml-string">'3.8'</span>
+<span class="yaml-key">services:</span>
+ <span class="yaml-key">z-tb-testservice:</span>
+   <span class="yaml-key">build:</span> <span class="yaml-value">.</span>
+   <span class="yaml-key">container_name:</span> <span class="yaml-string">z-tb-testcontainer</span>
+   <span class="yaml-key">volumes:</span>
+     - <span class="yaml-value">logs:/mnt/logs</span>
+   <span class="yaml-key">environment:</span>
+     - <span class="yaml-value">SECRET_KEY=${SECRET_KEY}</span>
+   <span class="yaml-key">stdin_open:</span> <span class="yaml-value">true</span>    <span class="bash-comment"># equivalent to -i</span>
+   <span class="yaml-key">tty:</span> <span class="yaml-value">true</span>           <span class="bash-comment"># equivalent to -t</span>
+   <span class="yaml-key">command:</span> <span class="yaml-string">/bin/sh</span>    <span class="bash-comment"># runs interactive shell</span>
+<span class="yaml-key">volumes:</span>
+ <span class="yaml-key">logs:</span>
+            </div>
+        </div>
+
+
+<!-- Slide 12b: Docker Cleanup -->
+<div class="slide">
+  <h2>Docker Cleanup & Maintenance</h2>
+  
+  <h3>🧹 Essential Cleanup Commands</h3>
+  
+  <div class="workflow-step">
+      <h3>Container Cleanup</h3>
+      <div class="terminal">docker ps -a                    # List all containers</div>
+      <div class="terminal">docker rm &lt;container_id&gt;        # Remove specific container</div>
+      <div class="terminal">docker container prune          # Remove all stopped containers</div>
+  </div>
+  
+  <div class="workflow-step">
+      <h3>Image Cleanup</h3>
+      <div class="terminal">docker images                   # List all images</div>
+      <div class="terminal">docker rmi &lt;image_id&gt;           # Remove specific image</div>
+      <div class="terminal">docker image prune              # Remove dangling images</div>
+      <div class="terminal">docker image prune -a           # Remove all unused images</div>
+  </div>
+  
+  <div class="workflow-step">
+      <h3>Volume & Network Cleanup</h3>
+      <div class="terminal">docker volume prune             # Remove unused volumes</div>
+      <div class="terminal">docker network prune            # Remove unused networks</div>
+  </div>
+  
+  <div class="workflow-step">
+      <h3>System-wide Cleanup</h3>
+      <div class="terminal">docker system df                # Show disk usage</div>
+      <div class="terminal">docker system prune             # Remove all unused objects</div>
+      <div class="terminal">docker system prune -a --volumes # ⚠️ Nuclear: removes everything unused</div>
+  </div>
+</div>
+
+
+        <!-- Slide 13: Best Practices -->
+        <div class="slide">
+            <h2>Best Practices & Tips</h2>
+            
+            <ul>
+            <li><strong>Multi-stage builds</strong> for smaller images (build layer, run layer)</li>
+            <li><strong>Keep layers cleaned-up in Dockerfile</strong>(eg: <span class="bash-command">rm -rf /var/lib/apt/lists/*)</span></li>
+            <li><strong>Layer stacking matters</strong> - changing a layer (3) affects build of subsequent layers (4-11)</li>
+            <li><strong><i>"One concern per container"</strong> --docker</i> (this is sprawl-dependent, IMO)</li>
+            <li><strong>Debugging builds</strong> - use <span class="bash-flag">--no-cache</span> when debugging to minimize confusion</li>
+            <li><strong>Avoid running as root</strong> - <span class="bash-command">docker run <span class="bash-flag">--user=1000</span> ...</span> </li>
+            <li><strong>Use read-only vol mounts</strong> - <span class="bash-command">-v /data:/data</span><span class="bash-flag">:ro</span> (root is still root)</li>
+            <li><strong>Minimize layers</strong> by combining RUN commands (&&... && ... & ...)</li>
+            <li><strong>Secrets handling</strong> - use a Secrets Manager or <span class="bash-command">RUN <span class="bash-flag">--mount=type=secret</span> </span>when possible</li>
+            <li><strong>Short-term credentials</strong> - Design for access instead of exposure (easy rotation, expiration)</li>
+            <li><strong>Regular security scanning</strong> and updates</li>
+            </ul>
+            <div class="link">
+                <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" target="_blank">🔗 Dockerfile Best Practices - docker.com</a><br>
+                <a href="https://spacelift.io/blog/docker-security" target="_blank">🔗 Docker Security - spacelift.io</a>
+            </div>
+        </div>
+
+        <!-- Slide 14: Security Considerations -->
+        <div class="slide">
+            <h2>Security Considerations</h2>
+            
+            <div class="comparison-item bad">
+                <h3>⚠️ Key Security Risks</h3>
+                <ul>
+                    <li>Shared host resource (kernel) vulnerabilities</li>
+                    <li>Root access and privilege escalation (especially use DnD sparingly)</li>
+                    <li>Exposed sensitive data in logs/history</li>
+                    <li>Volume mount confusion/misconfigurations/Access</li>
+                    <li>Traditional scanners can't see inside containers</li>
+                </ul>
+            </div>
+            
+            <p>
+            <strong>Solutions:</strong>
+                <ul>
+                    <li>Use container-specific security tools and follow best practice</li>
+                    <li>Avoid putting secrets on disk (most likely risk is <i>git</i>)</li>
+                    <li>Regular security scanning and updates</li>
+                    <li>Whenever feasible, remove container after use</li>
+                </ul
+            </p>
+        </div>
+        
+
+
+        <!-- Slide 15: Common Challenges -->
+        <div class="slide">
+            <h2>Common Challenges</h2>
+            
+            <h3>🏗️ Technical Debt</h3>
+            <ul>
+                <li>Image bloat and unnecessary dependencies</li>
+                <li>Maintenance and security updates</li>
+                <li>Breaking changes in support libraries</li>
+                <li>OS knowledge requirements</li>
+            </ul>
+            
+            <h3>📚 Learning Curve</h3>
+            <ul>
+                <li>Training requirements</li>
+                <li>Complex dockerfile syntax</li>
+                <li>Understanding layer optimization</li>
+                <li>Multi-stage build complexity</li>
+            </ul>
+        </div>
+
+        <!-- Slide 16: Summary -->
+        <div class="slide">
+            <h3><center>What questions do you have?</center></h3>
+            <div class="center-content">
+                
+                <h2>In Summary...</h2>
+                <div class="docker-logo">🐳</div>
+                <p style="font-size: 1.3em; text-align: center;">
+                    Docker provides powerful containerization capabilities but requires careful consideration of security, complexity, and best practices.
+                    <br><br>
+                    Software in the container must be securely built and deployed. A compromised container has high potential for host compromise. Extra mitigation can help (docker+VM)
+                    <br><br>
+                    Successful, long-term implementation hinges on balancing personnel, skillsets, and resources.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = ((n % totalSlides) + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+        
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
