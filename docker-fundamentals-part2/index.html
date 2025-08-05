@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeroBA Docker Installation Troubleshooting</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow: hidden;
+        }
+        
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slide {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 1000px;
+            height: 85vh;
+            padding: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: #4a5568;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        
+        h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .code {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        
+        .code-block {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .code-block:hover {
+            background: #2d3748;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .code-block::after {
+            content: "📋 Click to view full image";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 12px;
+            color: #a0aec0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .code-block:hover::after {
+            opacity: 1;
+        }
+        
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .popup-overlay.hidden {
+            display: none;
+        }
+        
+        .popup-overlay.visible {
+            display: flex;
+        }
+        
+        .popup-content {
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .popup-content img {
+            max-width: 100%;
+            max-height: 70vh;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            background: none;
+            border: none;
+        }
+        
+        .popup-close:hover {
+            color: #333;
+        }
+        
+        .error {
+            background: #fed7d7;
+            border-left: 4px solid #e53e3e;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }       
+        
+        .error-img {
+            background: #fed7d7;
+            border-left: 4px solid #e53e3e;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        
+        .solution {
+            background: #c6f6d5;
+            border-left: 4px solid #38a169;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+                
+        .solution-img {
+            background: #c6f6d5;
+            border-left: 4px solid #38a169;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        
+        .warning {
+            background: #fefcbf;
+            border-left: 4px solid #d69e2e;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .warning-img {
+            background: #fefcbf;
+            border-left: 4px solid #d69e2e;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #4a5568;
+        }
+        
+        ul {
+            line-height: 1.6;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            background: #fef5e7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">8</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>🐳 SeroBA Docker Installation</h1>
+            <h2 style="color: #667eea;">Troubleshooting & Resolution Guide</h2>
+            <div style="margin-top: 50px;">
+                <h3>Overview</h3>
+                <p>This presentation covers the step-by-step resolution of Docker build issues encountered while containerizing SeroBA, a pneumococcal serotyping tool.</p>
+                
+                <h3>Key Issues Addressed</h3>
+                <ul>
+                    <li>🐍 Python version compatibility problems</li>
+                    <li>🏗️ Base image selection and optimization</li>
+                    <li>📦 Python package management in containers</li>
+                    <li>🔧 Dependency installation challenges</li>
+                </ul>
+                
+                <strong>Starting Point:</strong><br>
+                <div class="code-block" onclick="showCodeImage('slide1.1.png')">
+
+$ git clone https://github.com/GlobalPneumoSeq/seroba.git<br>
+$ docker build .
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Issue #1 -->
+        <div class="slide">
+            <h1>Issue #1: Python 3.6 Compatibility</h1>
+            
+            <h3>Problem Identified</h3>
+            <div class="error">
+                <strong>SyntaxError:</strong> future feature annotations is not defined
+            </div>
+            
+            <div class="code-block" onclick="showCodeImage('slide2.1.png')" >
+File "/usr/local/lib/python3.6/dist-packages/bs4/builder/__init__.py", line 1
+  from __future__ import annotations
+  ^
+SyntaxError: future feature annotations is not defined
+            </div>
+            
+            <h3>Root Cause</h3>
+            <ul>
+                <li>Using <span class="highlight">Python 3.6</span> (deprecated)</li>
+                <li>Base image <span class="highlight">ubuntu:bionic</span> (also deprecated)</li>
+                <li>Modern packages require newer Python features</li>
+            </ul>
+            
+            <div class="warning-img" onclick="showCodeImage('slide2.2.png')">>
+                <strong>Key Learning:</strong> Deprecated base images lead to compatibility issues with current packages
+            </div>
+        </div>
+
+        <!-- Slide 3: Solution #1 -->
+        <div class="slide">
+            <h1>Solution #1: Modern Base Image</h1>
+            
+            <h3>Strategy</h3>
+            <ul>
+                <li>Switch from Ubuntu to <span class="highlight">Debian slim</span> distribution</li>
+                <li>Use <span class="highlight">bookworm-slim</span> (recommended for similar issues)</li>
+                <li>Multi-stage Docker build approach</li>
+            </ul>
+            
+            <h3>Dockerfile Changes</h3>
+            <div class="code-block" onclick="showCodeImage('slide3.1.png')">
+# OLD - Deprecated base image
+# FROM ubuntu:bionic as app
+
+# NEW - Modern slim distro
+FROM debian:bookworm-slim AS app
+            </div>
+            
+            <h3>Additional Optimizations</h3>
+            <div class="solution-img" onclick="showCodeImage('slide3.2.png')">
+                <ul>
+                    <li>Remove <code>apt-get upgrade</code> (security best practice)</li>
+                    <li>Remove <code>python-minimal</code> (included in slim)</li>
+                    <li>Change <code>libpython3-dev</code> → <code>python3-dev</code></li>
+                    <li>Use uppercase <code>FROM</code> and <code>AS</code> keywords</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Issue #2 -->
+        <div class="slide">
+            <h1>Issue #2: Installation Script Failure</h1>
+            
+            <h3>Problem</h3>
+            <div class="error-img" onclick="showCodeImage('slide4.1.png')">
+                ERROR: failed to build: process "/bin/sh -c cd seroba && /seroba/install_dependencies.sh" did not complete successfully: exit code: 1
+            </div>
+            
+            <h3>Likely Source</h3>
+            <div class="code-block" onclick="showCodeImage('slide4.2.png')">
+pip3 install ariba pysam==0.15.0 pymummer==0.10.3 biopython pyyaml==5.4.1
+            </div>
+            <p>Version conflicts due to outdated package versions from bionic era</p>
+            
+            <h3>Debugging Strategy</h3>
+            <div class="solution">
+                <strong>Container Debugging Approach:</strong>
+                <ul>
+                    <li>Remove problematic line from Dockerfile temporarily</li>
+                    <li>Build runnable container for debugging</li>
+                    <li>Add <code>vim</code> to package list for editing</li>
+                    <li>Use shell aliases for efficient container management</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 5: Docker Aliases -->
+        <div class="slide">
+            <h1>Development Workflow: Docker Aliases</h1>
+            
+            <h3>Helpful Command Aliases</h3>
+            <div class="code">
+# Build commands<br>
+alias db='docker build -t seroba:tmb --progress=plain .'<br>
+alias dbn='docker build -t seroba:tmb --progress=plain --no-cache .'<br>
+<br>
+# Container interaction<br>
+alias de='docker exec -it seroba:tmb /bin/bash'  # shell on running container<br>
+alias dr='docker run -it seroba:tmb /bin/bash'   # start container with shell<br>
+            </div>
+            
+            <h3>Modified Dockerfile for Debugging</h3>
+            <div class="code-block" onclick="showCodeImage('slide5.2.png')">
+FROM debian:bookworm-slim AS app<br>
+WORKDIR /<br>
+<br><br>
+RUN apt-get update && apt-get -y install \<br>
+  git \<br>
+  wget \<br>
+  unzip \<br>
+  vim \ <br>
+  zlib1g-dev \<br>
+  libbz2-dev \<br>
+  libjpeg-dev \<br>
+  liblzma-dev \<br>
+  python3 \<br>
+  python3-pip \<br>
+  python3-dev \<br>
+  python3-setuptools \<br>
+  && apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists<br>
+<br><br>
+COPY . /seroba/<br><br>
+# Temporarily removed: RUN cd seroba && /seroba/install_dependencies.sh<br>
+            </div>
+        </div>
+
+        <!-- Slide 6: Issue #3 -->
+        <div class="slide">
+            <h1>Issue #3: Externally Managed Environment</h1>
+            
+            <h3>The Problem</h3>
+            <div class="error">
+                <strong>error during build: externally-managed-environment</strong><br><br>
+                This environment is externally managed<br>
+                To install Python packages system-wide, try apt install python3-xyz
+            </div>
+            
+            <h3>Python Packaging</h3>
+            <ul>
+                <li>Debian prevents system-wide pip installs to avoid breaking OS python packages</li>
+                <li>venv could work, but might require updating the entire image layout</li>
+            </ul>
+            
+            <h3>Container-Specific Solution</h3>
+            <div class="warning">
+                <strong>Philosophy:</strong> <br>
+                ⚠️ --break-system-packages not great for production<br>
+                🟩 Find a base image that works..or <br>
+                🟩 Implement venv fully<br>
+            </div>
+            
+            <div class="solution">
+                <strong>Applied Fix:</strong> Add <code>--break-system-packages</code> flag to pip commands
+            </div>
+        </div>
+
+        <!-- Slide 7: Final Solution -->
+        <div class="slide">
+            <h1>Final Working Solution</h1>
+
+            <h3>Base Image</h3>
+            <div class="solution">
+                ✅ Update to (active distro) debian:bookworm-slim<br>
+                ✅ Trim unnecessary packages<br>
+            </div>
+            
+            <h3>Updated Package Versions</h3>
+            <div class="solution">
+                ✅ pysam==0.15.0 → 0.19.1<br>
+                ✅ pyyaml==5.4.1 → 6.0.2<br>
+                ✅ --break-system-packages flag added<br>
+            </div>
+            
+            <h3>Success Indicators</h3>
+            <div class="solution">
+                ✅ All packages installed successfully<br>
+                ✅ SeroBA runs (with test warnings)<br>
+                ✅ Container builds nearly completely
+            </div>
+            
+            <h3>TODO</h3>
+            <div class="warning">
+                <ul>
+                    <li>Fix SeroBA tests (convert from deprecated 'nose' to pytest/tox/nose2)</li>
+                    <li>Consider using venv for better isolation</li>
+                    <li>Check if Seroba actually works</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Summary -->
+        <div class="slide">
+            <h1>Summary & Lessons Learned</h1>
+            
+            <h3>🔧 Technical Resolutions</h3>
+            <ul>
+                <li><strong>Base Image:</strong> ubuntu:bionic → debian:bookworm-slim</li>
+                <li><strong>Python Management:</strong> Used --break-system-packages (since in container - PoC only)</li>
+                <li><strong>Package Versions:</strong> Bumped to current versions</li>
+                <li><strong>Debugging:</strong> Iterative container-based troubleshooting</li>
+            </ul>
+            
+            <h3>💡 Best Practices</h3>
+            <div class="solution">
+                <ul>
+                    <li>Choose modern, maintained base images</li>
+                    <li>Use multi-stage builds with clear naming</li>
+                    <li>Add debugging tools during development</li>
+                    <li>Create helpful aliases for container workflows</li>
+                    <li>Version pin packages but keep them current</li>
+                </ul>
+            </div>
+            
+            <h3>🚀 Development Workflow</h3>
+            <p>The combination of aliases, incremental builds, and container debugging created an efficient development cycle for resolving complex dependency issues.</p>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="popup-overlay" onclick="closePopup()">
+        <div class="popup-content" onclick="event.stopPropagation()">
+            <button class="popup-close" onclick="closePopup()">&times;</button>
+            <img id="popup-image" src="" alt="Code snippet image">
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+        
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+        
+        function showCodeImage(imageName) {
+            const popup = document.getElementById('popup-overlay');
+            const image = document.getElementById('popup-image');
+            image.src = `./images/${imageName}`;
+            popup.classList.remove('hidden');
+            popup.classList.add('visible');
+        }
+        
+        function closePopup() {
+            const popup = document.getElementById('popup-overlay');
+            popup.classList.remove('visible');
+            popup.classList.add('hidden');
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+        
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
