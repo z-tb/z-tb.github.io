@@ -449,13 +449,15 @@ COPY . /seroba/<br><br>
             <h3>Container-Specific Solution</h3>
             <div class="warning">
                 <strong>Philosophy:</strong> <br>
-                ⚠️ --break-system-packages not great for production<br>
+                😬 <code>--break-system-packages</code> not great for production<br>
                 🟩 Find a base image that works..or <br>
                 🟩 Implement venv fully<br>
             </div>
             
             <div class="solution">
-                <strong>Applied Fix:</strong> Add <code>--break-system-packages</code> flag to pip commands
+                <strong>Applied Fix:</strong><br>
+               🟩 Add <code>--break-system-packages</code> flag to pip commands<br>
+               🟩 May not be necessary with correct image/versions<br>
             </div>
         </div>
 
@@ -473,7 +475,7 @@ COPY . /seroba/<br><br>
             <div class="solution">
                 ✅ pysam==0.15.0 → 0.19.1<br>
                 ✅ pyyaml==5.4.1 → 6.0.2<br>
-                ✅ --break-system-packages flag added<br>
+                ✅ <code>--break-system-packages</code> flag added<br>
             </div>
             
             <h3>Success Indicators</h3>
@@ -487,6 +489,7 @@ COPY . /seroba/<br><br>
             <div class="warning">
                 <ul>
                     <li>Fix SeroBA tests (convert from deprecated 'nose' to pytest/tox/nose2)</li>
+                    <li>Experiement with various base images for python compatiblity (<code>--break-system-packages</code>)</li>
                     <li>Consider using venv for better isolation</li>
                     <li>Check if Seroba actually works</li>
                 </ul>
