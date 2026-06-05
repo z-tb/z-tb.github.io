@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-04T17:50:37Z",
+  "generated": "2026-06-05T18:17:03Z",
   "warn_days": 30,
   "hosts": {
     "7fb1ef6e22337e3f16fffc95e4d3538a4650a758": {
@@ -57,22 +57,22 @@
       "removed": 9
     },
     "1738acbc600e5553f621a255faedfa6e4567cbde": {
-      "last_patched": "2026-05-28 09:11:28",
+      "last_patched": "2026-06-04 12:17:31",
       "os": "Ubuntu 22.04.5 LTS (kernel 6.8.0-117-generic)",
-      "installed": 31,
+      "installed": 35,
       "removed": 9
+    },
+    "c5a1ba908743d95d1fc89fb029939055482d06bb": {
+      "last_patched": "2026-06-04 15:33:14",
+      "os": "Ubuntu 24.04.4 LTS (kernel 6.17.0-23-generic)",
+      "installed": 106,
+      "removed": 20
     },
     "ddfea54c9205805f8341c001f4ec14cc984ab27c": {
       "last_patched": "2026-05-28 17:27:48",
       "os": "Ubuntu 22.04.5 LTS (kernel 6.8.0-1055-aws)",
       "installed": 11,
       "removed": 0
-    },
-    "c5a1ba908743d95d1fc89fb029939055482d06bb": {
-      "last_patched": "2026-05-07 09:32:34",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.17.0-23-generic)",
-      "installed": 49,
-      "removed": 8
     },
     "c54e88799be0f99808ddf8d92e1186b5ef948275": {
       "last_patched": "2026-05-06 12:18:46",
