@@ -1,114 +1,114 @@
 {
-  "generated": "2026-07-22T13:38:33Z",
+  "generated": "2026-09-18T13:26:53Z",
   "warn_days": 30,
   "hosts": {
+    "4b6f14140a69c70304c7b8476881b039487d512c": {
+      "last_patched": "2026-09-17 09:26:28",
+      "os": "Ubuntu 24.04.5 LTS (kernel 7.0.0-31-generic)",
+      "installed": 146,
+      "removed": 9
+    },
+    "493e0dc8b25bc20ded8a9576e94fd0586da8d3b8": {
+      "last_patched": "2026-09-17 09:37:49",
+      "os": "Ubuntu 24.04.5 LTS (kernel 7.0.0-31-generic)",
+      "installed": 57,
+      "removed": 0
+    },
     "b9362c95ed187dc14cf1d94457fd6be345f11b3d": {
-      "last_patched": "2026-07-16 08:41:40",
-      "os": "Ubuntu 22.04.5 LTS (kernel 6.8.0-124-generic)",
-      "installed": 144,
-      "removed": 8
+      "last_patched": "2026-09-17 07:26:54",
+      "os": "Ubuntu 24.04.5 LTS (kernel 7.0.0-31-generic)",
+      "installed": 63,
+      "removed": 0
     },
     "0c0070097173984720e96e21f22bbb68fde71dd9": {
-      "last_patched": "2026-07-16 15:49:37",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.8.0-106-generic)",
-      "installed": 162,
-      "removed": 9
+      "last_patched": "2026-09-17 12:06:22",
+      "os": "Ubuntu 24.04.5 LTS (kernel 6.8.0-139-generic)",
+      "installed": 21,
+      "removed": 0
     },
     "8a10209b88d1ac23bebae7d6fa54ee4272f8725f": {
-      "last_patched": "2026-07-16 15:49:37",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.8.0-106-generic)",
-      "installed": 228,
-      "removed": 9
+      "last_patched": "2026-09-17 12:06:22",
+      "os": "Ubuntu 24.04.5 LTS (kernel 6.8.0-139-generic)",
+      "installed": 28,
+      "removed": 0
     },
     "08f807d81084cab2cf607e5b34f86cd307da5de9": {
-      "last_patched": "2026-07-16 15:49:37",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.8.0-106-generic)",
-      "installed": 228,
-      "removed": 9
+      "last_patched": "2026-09-17 12:06:22",
+      "os": "Ubuntu 24.04.5 LTS (kernel 6.8.0-139-generic)",
+      "installed": 23,
+      "removed": 0
     },
-    "1738acbc600e5553f621a255faedfa6e4567cbde": {
-      "last_patched": "2026-07-09 09:23:25",
-      "os": "Ubuntu 22.04.5 LTS (kernel 6.8.0-124-generic)",
-      "installed": 58,
-      "removed": 9
-    },
-    "e2ecb2bcc6c2f92daeaf70e1ad3ee7b3edffb711": {
-      "last_patched": "2026-07-16 10:37:30",
-      "os": "Ubuntu 22.04.5 LTS (kernel 6.8.0-124-generic)",
-      "installed": 111,
-      "removed": 16
-    },
-    "28070bb2d99f7b93b498b39035d7fb4df5de9004": {
-      "last_patched": "2026-07-16 07:48:08",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.17.0-35-generic)",
-      "installed": 169,
-      "removed": 18
+    "c54e88799be0f99808ddf8d92e1186b5ef948275": {
+      "last_patched": "2026-09-11 13:11:12",
+      "os": "Ubuntu 24.04.5 LTS (kernel 7.0.0-31-generic)",
+      "installed": 0,
+      "removed": 0
     },
     "b800ee97055a4b80683d1df033010c8dc9a569be": {
-      "last_patched": "2026-07-09 14:14:44",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.8.0-134-generic)",
-      "installed": 4,
+      "last_patched": "2026-09-11 15:49:42",
+      "os": "Ubuntu 24.04.5 LTS (kernel 6.8.0-138-generic)",
+      "installed": 55,
       "removed": 0
     },
     "5aba06823c833dcd7a687803dee91a7884c47c10": {
-      "last_patched": "2026-07-09 14:14:43",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.8.0-134-generic)",
-      "installed": 14,
+      "last_patched": "2026-09-11 15:49:42",
+      "os": "Ubuntu 24.04.5 LTS (kernel 6.8.0-138-generic)",
+      "installed": 46,
       "removed": 0
     },
     "f46e650f598c5749573445aaa7e2bb53c3100614": {
-      "last_patched": "2026-07-09 14:14:44",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.8.0-134-generic)",
-      "installed": 4,
-      "removed": 0
-    },
-    "7fb1ef6e22337e3f16fffc95e4d3538a4650a758": {
-      "last_patched": "2026-07-09 14:19:15",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.8.0-134-generic)",
-      "installed": 42,
+      "last_patched": "2026-09-11 15:49:42",
+      "os": "Ubuntu 24.04.5 LTS (kernel 6.8.0-138-generic)",
+      "installed": 46,
       "removed": 0
     },
     "5d93bc09da595f8f86d65ff0fe14a19129f3e4c1": {
-      "last_patched": "2026-07-09 14:14:43",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.8.0-134-generic)",
-      "installed": 5,
+      "last_patched": "2026-09-11 15:49:43",
+      "os": "Ubuntu 24.04.5 LTS (kernel 6.8.0-138-generic)",
+      "installed": 50,
       "removed": 0
     },
-    "493e0dc8b25bc20ded8a9576e94fd0586da8d3b8": {
-      "last_patched": "2026-07-16 09:08:19",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.17.0-35-generic)",
-      "installed": 137,
-      "removed": 16
+    "962dd691e7f0dce59b46d70a9a49601621413e9f": {
+      "last_patched": "2026-09-10 13:09:17",
+      "os": "Ubuntu 24.04.5 LTS (kernel 7.0.0-31-generic)",
+      "installed": 89,
+      "removed": 3
     },
     "dfa4c4c204ff8dc01de86f764859e5e3deda3f78": {
-      "last_patched": "2026-07-16 13:47:56",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.17.0-40-generic)",
-      "installed": 217,
-      "removed": 27
-    },
-    "962dd691e7f0dce59b46d70a9a49601621413e9f": {
-      "last_patched": "2026-07-20 12:17:22",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.17.0-35-generic)",
-      "installed": 197,
-      "removed": 20
-    },
-    "c54e88799be0f99808ddf8d92e1186b5ef948275": {
-      "last_patched": "2026-06-25 09:52:14",
-      "os": "Ubuntu 22.04.5 LTS (kernel 6.8.0-124-generic)",
-      "installed": 65,
+      "last_patched": "2026-09-08 11:23:27",
+      "os": "Ubuntu 24.04.5 LTS (kernel 7.0.0-31-generic)",
+      "installed": 222,
       "removed": 15
     },
-    "4b6f14140a69c70304c7b8476881b039487d512c": {
-      "last_patched": "2026-06-18 11:44:12",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.17.0-35-generic)",
-      "installed": 91,
-      "removed": 18
+    "e2ecb2bcc6c2f92daeaf70e1ad3ee7b3edffb711": {
+      "last_patched": "2026-09-03 10:52:55",
+      "os": "Ubuntu 22.04.5 LTS (kernel 6.8.0-138-generic)",
+      "installed": 111,
+      "removed": 7
+    },
+    "28070bb2d99f7b93b498b39035d7fb4df5de9004": {
+      "last_patched": "2026-09-03 08:45:13",
+      "os": "Ubuntu 24.04.4 LTS (kernel 7.0.0-30-generic)",
+      "installed": 113,
+      "removed": 15
     },
     "c5a1ba908743d95d1fc89fb029939055482d06bb": {
-      "last_patched": "2026-06-18 08:17:16",
-      "os": "Ubuntu 24.04.4 LTS (kernel 6.17.0-29-generic)",
-      "installed": 232,
-      "removed": 18
+      "last_patched": "2026-08-19 09:46:27",
+      "os": "Ubuntu 24.04.4 LTS (kernel 7.0.0-28-generic)",
+      "installed": 114,
+      "removed": 12
+    },
+    "1738acbc600e5553f621a255faedfa6e4567cbde": {
+      "last_patched": "2026-08-13 09:45:03",
+      "os": "Ubuntu 22.04.5 LTS (kernel 6.8.0-136-generic)",
+      "installed": 14,
+      "removed": 0
+    },
+    "7fb1ef6e22337e3f16fffc95e4d3538a4650a758": {
+      "last_patched": "2026-07-30 17:18:20",
+      "os": "Ubuntu 24.04.4 LTS (kernel 6.8.0-136-generic)",
+      "installed": 5,
+      "removed": 2
     },
     "ddfea54c9205805f8341c001f4ec14cc984ab27c": {
       "last_patched": "2026-05-28 17:27:48",
